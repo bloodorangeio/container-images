@@ -5,6 +5,7 @@ on:
     branches: pandoc-golangci-lint
     paths:
       - 'pandoc/*'
+      - '.github/workflows/pandoc.yml'
 
 jobs:
   build:

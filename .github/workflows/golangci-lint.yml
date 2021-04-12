@@ -5,6 +5,7 @@ on:
     branches: pandoc-golangci-lint
     paths:
       - 'golangci-lint/*'
+      - '.github/workflows/golangci-lint.yml'
 
 jobs:
   build:
@@ -31,7 +32,7 @@ jobs:
       - name: docker tag and push
         run: |
           REF="${{ steps.prepare.outputs.repo }}:${{ steps.prepare.outputs.commit }}"
-          TAG="$(docker run -it --rm --entrypoint sh ${REF} -c 'golangci-lint --version | awk "{print \$4}"')"
+          TAG="$(docker run --rm --entrypoint sh ${REF} -c 'golangci-lint --version | awk "{print \$4}"')"
           docker tag ${REF} ${{ steps.prepare.outputs.repo }}:${TAG}
           docker push ${{ steps.prepare.outputs.repo }}:${TAG}
       - name: clear
