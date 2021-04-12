@@ -13,3 +13,15 @@ links to their respective registry homepage(s):
 | **pandoc** | [![GitHub Actions status](https://github.com/bloodorangeio/container-images/workflows/pandoc/badge.svg)](https://github.com/bloodorangeio/container-images/actions?query=workflow%3Apandoc) | For converting Markdown to HTML/PDF | (1) [GHCR](https://github.com/orgs/bloodorangeio/packages/container/package/pandoc) |
 | **golangci-lint** | [![GitHub Actions status](https://github.com/bloodorangeio/container-images/workflows/golangci-lint/badge.svg)](https://github.com/bloodorangeio/container-images/actions?query=workflow%3Agolangci-lint) | For linting Go source files | (1) [GHCR](https://github.com/orgs/bloodorangeio/packages/container/package/golangci-lint) |
 
+## CI
+
+Each image has a corresponding GitHub Action workflow which can be
+found in this repo at `.github/workflows/<name>.yml`.
+
+The Dockerfile and other related files for a given image can be found at the
+root of this repo under directory by the image's name (e.g. `pandoc/`).
+
+CI will trigger for an image if any files related to the image are modified
+as part of the incoming commit (including the GitHub Action .yml file itself).
+
+As of now, the tag naming scheme is unique to each image.
