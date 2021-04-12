@@ -28,11 +28,9 @@ jobs:
           password: ${{ secrets.RELEASE_GHCR_USER_TOKEN }}
       - name: docker tag and push
         run: |
-	  TAG="$(docker run --rm --entrypoint /usr/bin/rpm \
-		${{ steps.prepare.outputs.repo }}:${{ steps.prepare.outputs.commit }} \
-		 -q --queryformat "%{version}-%{release}.%{arch}" pandoc)"
-          docker tag ${{ steps.prepare.outputs.repo }}:${{ steps.prepare.outputs.commit }} \
-		${{ steps.prepare.outputs.repo }}:${TAG}
+	  REF="${{ steps.prepare.outputs.repo }}:${{ steps.prepare.outputs.commit }}"
+	  TAG="$(docker run --rm --entrypoint /usr/bin/rpm ${REF} -q --queryformat "%{version}-%{release}.%{arch}" pandoc)"
+          docker tag ${REF} ${{ steps.prepare.outputs.repo }}:${TAG}
           docker push ${{ steps.prepare.outputs.repo }}:${TAG}
       - name: clear
         if: always()
