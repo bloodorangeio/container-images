@@ -3,6 +3,8 @@ name: pandoc
 on:
   push:
     branches: pandoc-golangci-lint
+    paths:
+      - 'pandoc/*'
 
 jobs:
   build:
