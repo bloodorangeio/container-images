@@ -25,3 +25,15 @@ CI will trigger for an image if any files related to the image are modified
 as part of the incoming commit (including the GitHub Action .yml file itself).
 
 As of now, the tag naming scheme is unique to each image.
+
+## Pull Requests
+
+When making a pull request, CI will be triggered to check that any images
+related to your change will build successfully.
+
+New images are welcome, but keep in mind that they must serve some purpose
+related to CI in the opencontainers organization.
+
+When adding a new image, please make sure to update this README and add
+new GitHub Actions workflows for both `push` and `pull_request`.
+
