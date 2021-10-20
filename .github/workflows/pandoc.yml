@@ -2,7 +2,7 @@ name: pandoc
 
 on:
   push:
-    branches: main
+    branches: use-crane-update-test
     paths:
       - 'pandoc/*'
       - '.github/workflows/pandoc.yml'
