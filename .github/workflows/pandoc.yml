@@ -29,12 +29,18 @@ jobs:
           registry: ghcr.io
           username: ${{ secrets.RELEASE_GHCR_USER_NAME }}
           password: ${{ secrets.RELEASE_GHCR_USER_TOKEN }}
-      - name: docker tag and push
+      - name: crane copy
         run: |
+          # Ensure crane installed
+          crane help &> /dev/null || ( echo "Installing crane ... " && \
+            curl -sLO "${CRANE_RELEASE_URL}" && CRANE_RELEASE_FILENAME="${CRANE_RELEASE_URL##*/}" && \
+            shasum -a 256 "${CRANE_RELEASE_FILENAME}" | grep -q "^${CRANE_RELEASE_SHA256}  " && \
+            mkdir testbin/ && cat "${CRANE_RELEASE_FILENAME}" | tar xz -C /usr/local/bin crane && \
+            crane help > /dev/null )
+
           REF="${{ steps.prepare.outputs.repo }}:${{ steps.prepare.outputs.commit }}"
           TAG="$(docker run --rm --entrypoint /usr/bin/rpm ${REF} -q --queryformat "%{version}-%{release}.%{arch}" pandoc)"
-          docker tag ${REF} ${{ steps.prepare.outputs.repo }}:${TAG}
-          docker push ${{ steps.prepare.outputs.repo }}:${TAG}
+          crane copy ${REF} ${{ steps.prepare.outputs.repo }}:${TAG}
       - name: clear
         if: always()
         run: |
