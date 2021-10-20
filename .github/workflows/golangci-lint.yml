@@ -29,12 +29,11 @@ jobs:
           registry: ghcr.io
           username: ${{ secrets.RELEASE_GHCR_USER_NAME }}
           password: ${{ secrets.RELEASE_GHCR_USER_TOKEN }}
-      - name: docker tag and push
+      - name: crane copy
         run: |
           REF="${{ steps.prepare.outputs.repo }}:${{ steps.prepare.outputs.commit }}"
           TAG="$(docker run --rm --entrypoint sh ${REF} -c 'golangci-lint --version | awk "{print \$4}"')"
-          docker tag ${REF} ${{ steps.prepare.outputs.repo }}:${TAG}
-          docker push ${{ steps.prepare.outputs.repo }}:${TAG}
+          crane copy ${REF} ${{ steps.prepare.outputs.repo }}:${TAG}
       - name: clear
         if: always()
         run: |

@@ -1,2 +1,2 @@
-FROM docker.io/golangci/golangci-lint:v1.39.0
+FROM docker.io/golangci/golangci-lint:v1.42.1
 
