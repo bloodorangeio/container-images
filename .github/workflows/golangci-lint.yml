@@ -35,7 +35,7 @@ jobs:
           crane help > /dev/null || ( set -x && \
             curl -LO "${CRANE_RELEASE_URL}" && CRANE_RELEASE_FILENAME="${CRANE_RELEASE_URL##*/}" && \
             shasum -a 256 "${CRANE_RELEASE_FILENAME}" | grep "^${CRANE_RELEASE_SHA256}  " && \
-            mkdir testbin/ && cat "${CRANE_RELEASE_FILENAME}" | tar xz -C ./testbin crane && \
+            mkdir testbin/ && cat "${CRANE_RELEASE_FILENAME}" | tar xz -C /usr/local/bin crane && \
             export PATH="${PATH}:${PWD}/testbin" && ls -la testbin/ &&  crane help > /dev/null )
 
           REF="${{ steps.prepare.outputs.repo }}:${{ steps.prepare.outputs.commit }}"
