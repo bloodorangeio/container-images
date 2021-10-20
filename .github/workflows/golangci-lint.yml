@@ -32,9 +32,9 @@ jobs:
       - name: crane copy
         run: |
           # Ensure crane installed
-          crane help > /dev/null || ( \
-            curl -LO "${CRANE_RELEASE_URL}" && CRANE_RELEASE_FILENAME="${CRANE_RELEASE_URL##*/}" && \
-            shasum -a 256 "${CRANE_RELEASE_FILENAME}" | grep "^${CRANE_RELEASE_SHA256}  " && \
+          crane help &> /dev/null || ( echo "Installing crane..." && \
+            curl -sLO "${CRANE_RELEASE_URL}" && CRANE_RELEASE_FILENAME="${CRANE_RELEASE_URL##*/}" && \
+            shasum -a 256 "${CRANE_RELEASE_FILENAME}" | grep -q "^${CRANE_RELEASE_SHA256}  " && \
             mkdir testbin/ && cat "${CRANE_RELEASE_FILENAME}" | tar xz -C /usr/local/bin crane && \
             crane help > /dev/null )
 
