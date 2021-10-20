@@ -32,11 +32,11 @@ jobs:
       - name: crane copy
         run: |
           # Ensure crane installed
-          crane help > /dev/null || ( \
+          crane help > /dev/null || ( set -x && \
             curl -LO "${CRANE_RELEASE_URL}" && CRANE_RELEASE_FILENAME="${CRANE_RELEASE_URL##*/}" && \
             shasum -a 256 "${CRANE_RELEASE_FILENAME}" | grep "^${CRANE_RELEASE_SHA256}  " && \
             mkdir testbin/ && cat "${CRANE_RELEASE_FILENAME}" | tar xz -C ./testbin crane && \
-            export PATH="${PATH}:${PWD}/testbin" && crane help > /dev/null )
+            export PATH="${PATH}:${PWD}/testbin" && ls -la testbin/ &&  crane help > /dev/null )
 
           REF="${{ steps.prepare.outputs.repo }}:${{ steps.prepare.outputs.commit }}"
           TAG="$(docker run --rm --entrypoint sh ${REF} -c 'golangci-lint --version | awk "{print \$4}"')"
